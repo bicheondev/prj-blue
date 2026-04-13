@@ -1,5 +1,7 @@
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { useEffect, useRef } from "react";
+import { MusicProvider } from "../contexts/MusicContext";
+import { Toaster } from "./ui/sonner";
 
 const NAV_ITEMS = [
   { label: "사전", path: "/" },
@@ -47,8 +49,11 @@ export default function Layout() {
   }, [navigate, location]);
 
   return (
-    <div ref={containerRef} className="size-full">
-      <Outlet />
-    </div>
+    <MusicProvider>
+      <div ref={containerRef} className="size-full">
+        <Outlet />
+        <Toaster />
+      </div>
+    </MusicProvider>
   );
 }
