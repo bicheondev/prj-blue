@@ -16,6 +16,16 @@ export default function PaperPage() {
 
   return (
     <div className="size-full overflow-auto">
+      <div className="flex justify-end px-4 py-2">
+        <a
+          href="https://mirror.adversec.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-700 shadow-sm hover:bg-gray-50"
+        >
+          문헌 미러 (adversec.com)
+        </a>
+      </div>
       <div className="relative w-[1920px] h-[1080px] mx-auto">
         <Desktop
           breadcrumb={BREADCRUMB}

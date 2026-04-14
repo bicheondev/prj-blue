@@ -32,6 +32,8 @@ export interface Track {
   duration: number;
   imageUrl: string;
   lyrics: string[];
+  audioUrl?: string;
+  no?: number;
 }
 
 export interface KPFont {

@@ -10,6 +10,8 @@ import NewsPage from "./components/pages/NewsPage";
 import TranslatePage from "./components/pages/TranslatePage";
 import PaperPage from "./components/pages/PaperPage";
 import StorePage from "./components/pages/StorePage";
+import AdminPage from "./components/pages/AdminPage";
+import KctvPage from "./components/pages/KctvPage";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +28,8 @@ export const router = createBrowserRouter([
       { path: "translate", Component: TranslatePage },
       { path: "paper", Component: PaperPage },
       { path: "store", Component: StorePage },
+      { path: "admin", Component: AdminPage },
+      { path: "kctv", Component: KctvPage },
     ],
   },
 ]);

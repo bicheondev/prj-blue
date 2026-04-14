@@ -8,15 +8,19 @@ import imgAlbum4 from "figma:asset/f97778e380f938e119e862c7f58de7ce6c6997b2.png"
 import imgAlbum5 from "figma:asset/1a841b63b17c91a78ccb1f33db7b4ced433b8fea.png";
 import imgAlbum6 from "figma:asset/4610dbc1c30533b867c4306f9ad6503de93227a4.png";
 
+const R2_BASE = "https://pub-442c73edbe954e7fa0b162c33f3fc7d8.r2.dev";
+
 export const TRACKS: Track[] = [
   {
     id: "track-1",
+    no: 1,
     title: "장군님 축지법 쓰신다",
     artist: "보천보전자악단",
     album: "왕재산 선곡 1",
     year: 2024,
     duration: 179,
     imageUrl: imgAlbum1,
+    audioUrl: `${R2_BASE}/music/audio/1.mp3`,
     lyrics: [
       "방선천리 주름잡아",
       "장군님 가신다",
@@ -35,12 +39,14 @@ export const TRACKS: Track[] = [
   },
   {
     id: "track-2",
+    no: 2,
     title: "어디에 계십니까 그리운 장군님",
     artist: "왕재산예술단",
     album: "왕재산예술단 명곡집",
     year: 2023,
     duration: 214,
     imageUrl: imgAlbum2,
+    audioUrl: `${R2_BASE}/music/audio/2.mp3`,
     lyrics: [
       "하늘도 울고 땅도 울던",
       "그날의 기억 새롭다",
@@ -58,12 +64,14 @@ export const TRACKS: Track[] = [
   },
   {
     id: "track-3",
+    no: 3,
     title: "내 나라 제일로 좋아",
     artist: "모란봉악단",
     album: "모란봉악단 공연집",
     year: 2022,
     duration: 198,
     imageUrl: imgAlbum3,
+    audioUrl: `${R2_BASE}/music/audio/3.mp3`,
     lyrics: [
       "내 나라 내 조국",
       "제일로 좋아",
@@ -81,12 +89,14 @@ export const TRACKS: Track[] = [
   },
   {
     id: "track-4",
+    no: 4,
     title: "휘파람",
     artist: "보천보전자악단",
     album: "보천보전자악단 명곡선",
     year: 2021,
     duration: 185,
     imageUrl: imgAlbum3,
+    audioUrl: `${R2_BASE}/music/audio/4.mp3`,
     lyrics: [
       "휘파람을 불며 걸어가네",
       "행복한 이 길을",
@@ -104,12 +114,14 @@ export const TRACKS: Track[] = [
   },
   {
     id: "track-5",
+    no: 5,
     title: "밀양아리랑",
     artist: "국립민족예술단",
     album: "민족음악 선집",
     year: 2020,
     duration: 162,
     imageUrl: imgAlbum5,
+    audioUrl: `${R2_BASE}/music/audio/5.mp3`,
     lyrics: [
       "아리아리랑 쓰리쓰리랑",
       "아라리가 났네",
@@ -127,12 +139,14 @@ export const TRACKS: Track[] = [
   },
   {
     id: "track-6",
+    no: 6,
     title: "우리를 부러워하라",
     artist: "공훈국가합창단",
     album: "조국찬가 선집",
     year: 2023,
     duration: 201,
     imageUrl: imgAlbum6,
+    audioUrl: `${R2_BASE}/music/audio/6.mp3`,
     lyrics: [
       "우리를 부러워하라",
       "이 세상 사람들아",
