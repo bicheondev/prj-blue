@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import Desktop from "../../../imports/Desktop1";
+import ScaledCanvas from "../ScaledCanvas";
 import { DICTIONARY_ENTRIES } from "../../../data/dictionary";
 import type { DictionarySource } from "../../../data/types";
 
@@ -41,23 +42,21 @@ export default function DictionaryPage() {
   };
 
   return (
-    <div className="size-full overflow-auto" onClick={() => setShowAutocomplete(false)}>
-      <div
-        className="relative w-[1920px] h-[1080px] mx-auto"
-        style={{ minWidth: 1200, transform: "scale(var(--page-scale, 1))", transformOrigin: "top center" }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Desktop
-          query={query}
-          onQueryChange={handleQueryChange}
-          onSearch={handleSearch}
-          activeSource={activeSource}
-          onSourceChange={setActiveSource}
-          autocomplete={autocomplete}
-          showAutocomplete={showAutocomplete}
-          onAutocompleteSelect={handleAutocompleteSelect}
-        />
-      </div>
+    <div className="size-full" onClick={() => setShowAutocomplete(false)}>
+      <ScaledCanvas>
+        <div className="relative size-full" onClick={(e) => e.stopPropagation()}>
+          <Desktop
+            query={query}
+            onQueryChange={handleQueryChange}
+            onSearch={handleSearch}
+            activeSource={activeSource}
+            onSourceChange={setActiveSource}
+            autocomplete={autocomplete}
+            showAutocomplete={showAutocomplete}
+            onAutocompleteSelect={handleAutocompleteSelect}
+          />
+        </div>
+      </ScaledCanvas>
     </div>
   );
 }

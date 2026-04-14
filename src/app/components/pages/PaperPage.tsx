@@ -2,6 +2,7 @@ import { toast } from "sonner";
 import Desktop from "../../../imports/Desktop8";
 import { ACADEMIC_DOCUMENTS, BREADCRUMB } from "../../../data/papers";
 import type { AcademicDocument } from "../../../data/types";
+import ScaledCanvas from "../ScaledCanvas";
 
 export default function PaperPage() {
   const handleDocumentClick = (doc: AcademicDocument) => {
@@ -26,13 +27,13 @@ export default function PaperPage() {
           문헌 미러 (adversec.com)
         </a>
       </div>
-      <div className="relative w-[1920px] h-[1080px] mx-auto">
+      <ScaledCanvas>
         <Desktop
           breadcrumb={BREADCRUMB}
           documents={ACADEMIC_DOCUMENTS}
           onDocumentClick={handleDocumentClick}
         />
-      </div>
+      </ScaledCanvas>
     </div>
   );
 }

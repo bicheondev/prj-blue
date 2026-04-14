@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import Desktop from "../../../imports/Desktop9";
 import { PRODUCTS } from "../../../data/store";
 import type { Product } from "../../../data/types";
+import ScaledCanvas from "../ScaledCanvas";
 
 export default function StorePage() {
   const [activeCategory, setActiveCategory] = useState("전체");
@@ -19,15 +20,13 @@ export default function StorePage() {
   };
 
   return (
-    <div className="size-full overflow-auto">
-      <div className="relative w-[1920px] h-[1080px] mx-auto">
-        <Desktop
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-          products={filteredProducts}
-          onAddToCart={handleAddToCart}
-        />
-      </div>
-    </div>
+    <ScaledCanvas>
+      <Desktop
+        activeCategory={activeCategory}
+        onCategoryChange={setActiveCategory}
+        products={filteredProducts}
+        onAddToCart={handleAddToCart}
+      />
+    </ScaledCanvas>
   );
 }

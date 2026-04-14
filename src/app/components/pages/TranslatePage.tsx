@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Desktop from "../../../imports/Desktop10";
+import ScaledCanvas from "../ScaledCanvas";
 
 export default function TranslatePage() {
   const [sourceText, setSourceText] = useState("");
@@ -29,17 +30,15 @@ export default function TranslatePage() {
   };
 
   return (
-    <div className="size-full overflow-auto">
-      <div className="relative w-[1920px] h-[1080px] mx-auto">
-        <Desktop
-          sourceText={sourceText}
-          translatedText={translatedText}
-          isLoading={isLoading}
-          onSourceTextChange={setSourceText}
-          onTranslate={handleTranslate}
-          onSwap={handleSwap}
-        />
-      </div>
-    </div>
+    <ScaledCanvas>
+      <Desktop
+        sourceText={sourceText}
+        translatedText={translatedText}
+        isLoading={isLoading}
+        onSourceTextChange={setSourceText}
+        onTranslate={handleTranslate}
+        onSwap={handleSwap}
+      />
+    </ScaledCanvas>
   );
 }
