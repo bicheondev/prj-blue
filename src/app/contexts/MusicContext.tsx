@@ -5,12 +5,28 @@ import type { Track } from "../../data/types";
 const R2_BASE = "https://pub-442c73edbe954e7fa0b162c33f3fc7d8.r2.dev";
 
 /**
- * Fetch the track list from R2 and return an array of Track objects.
- * The musiclist file is a plain text file with one track number per line.
+ * Fetch the track list from R2. Tries the following endpoints in order:
+ *   1. /music/tracks.json  – structured JSON array of Track objects
+ *   2. /music/musiclist    – newline-separated lines; each line may be:
+ *        "no\ttitle\tartist\talbum\tyear"  (tab-separated)
+ *        or just "no" (number-only fallback)
+ *
  * Audio:  ${R2_BASE}/music/audio/${no}.mp3
- * Image:  ${R2_BASE}/music/image/${no}.jpg  (gif fallback)
+ * Image:  ${R2_BASE}/music/image/${no}.jpg
  */
 export async function fetchTracksFromR2(): Promise<Track[]> {
+  // 1. Try structured JSON metadata
+  try {
+    const jsonRes = await fetch(`${R2_BASE}/music/tracks.json`);
+    if (jsonRes.ok) {
+      const data: Track[] = await jsonRes.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch {
+    // fall through
+  }
+
+  // 2. Try plain musiclist (tab-separated or number-only)
   const res = await fetch(`${R2_BASE}/music/musiclist`);
   if (!res.ok) throw new Error(`Failed to fetch musiclist: ${res.status}`);
   const text = await res.text();
@@ -20,14 +36,19 @@ export async function fetchTracksFromR2(): Promise<Track[]> {
     .filter(Boolean);
 
   return lines.map((line, idx) => {
-    const no = Number(line) || idx + 1;
+    const parts = line.split("\t");
+    const no = Number(parts[0]) || idx + 1;
+    const title = parts[1] || `Track ${no}`;
+    const artist = parts[2] || "";
+    const album = parts[3] || "";
+    const year = Number(parts[4]) || new Date().getFullYear();
     return {
       id: `r2-track-${no}`,
       no,
-      title: `Track ${no}`,
-      artist: "",
-      album: "",
-      year: new Date().getFullYear(),
+      title,
+      artist,
+      album,
+      year,
       duration: 0,
       imageUrl: `${R2_BASE}/music/image/${no}.jpg`,
       audioUrl: `${R2_BASE}/music/audio/${no}.mp3`,

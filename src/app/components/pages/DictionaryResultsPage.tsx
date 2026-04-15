@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import Desktop from "../../../imports/Desktop2";
+import ScaledCanvas from "../ScaledCanvas";
 import { DICTIONARY_ENTRIES } from "../../../data/dictionary";
 import type { DictionarySource } from "../../../data/types";
 
@@ -20,17 +21,15 @@ export default function DictionaryResultsPage() {
   const results = useMemo(() => allResults.slice(0, pageSize), [allResults, pageSize]);
 
   return (
-    <div className="size-full overflow-auto">
-      <div className="relative w-[1920px] h-[1080px] mx-auto">
-        <Desktop
-          query={query}
-          source={source}
-          results={results}
-          totalCount={allResults.length}
-          pageSize={pageSize}
-          onPageSizeChange={setPageSize}
-        />
-      </div>
-    </div>
+    <ScaledCanvas>
+      <Desktop
+        query={query}
+        source={source}
+        results={results}
+        totalCount={allResults.length}
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+      />
+    </ScaledCanvas>
   );
 }

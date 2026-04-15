@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import Desktop from "../../../imports/Desktop3";
 import { KP_FONTS } from "../../../data/fonts";
 import type { KPFont } from "../../../data/types";
+import ScaledCanvas from "../ScaledCanvas";
 
 export default function FontPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,17 +27,15 @@ export default function FontPage() {
   };
 
   return (
-    <div className="size-full overflow-auto">
-      <div className="relative w-[1920px] h-[1080px] mx-auto">
-        <Desktop
-          fonts={filteredFonts}
-          searchQuery={searchQuery}
-          onSearchQueryChange={setSearchQuery}
-          testText={testText}
-          onTestTextChange={setTestText}
-          onDownload={handleDownload}
-        />
-      </div>
-    </div>
+    <ScaledCanvas>
+      <Desktop
+        fonts={filteredFonts}
+        searchQuery={searchQuery}
+        onSearchQueryChange={setSearchQuery}
+        testText={testText}
+        onTestTextChange={setTestText}
+        onDownload={handleDownload}
+      />
+    </ScaledCanvas>
   );
 }

@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useNavigate } from "react-router";
 import Desktop from "../../../imports/Desktop7";
 import { useMusicContext } from "../../contexts/MusicContext";
+import ScaledCanvas from "../ScaledCanvas";
 
 export default function MusicSheetPage() {
   const navigate = useNavigate();
@@ -17,24 +18,22 @@ export default function MusicSheetPage() {
   }, [music.currentTime, music.currentTrack]);
 
   return (
-    <div className="size-full overflow-auto">
-      <div className="relative w-[1920px] h-[1080px] mx-auto">
-        <Desktop
-          track={music.currentTrack}
-          isPlaying={music.isPlaying}
-          currentTime={music.currentTime}
-          repeat={music.repeat}
-          shuffle={music.shuffle}
-          onPlay={music.resume}
-          onPause={music.pause}
-          onNext={music.next}
-          onPrev={music.prev}
-          onRepeatToggle={music.toggleRepeat}
-          onShuffleToggle={music.toggleShuffle}
-          onNavigateToPlayer={() => navigate("/music/player")}
-          activeLyricIndex={activeLyricIndex}
-        />
-      </div>
-    </div>
+    <ScaledCanvas>
+      <Desktop
+        track={music.currentTrack}
+        isPlaying={music.isPlaying}
+        currentTime={music.currentTime}
+        repeat={music.repeat}
+        shuffle={music.shuffle}
+        onPlay={music.resume}
+        onPause={music.pause}
+        onNext={music.next}
+        onPrev={music.prev}
+        onRepeatToggle={music.toggleRepeat}
+        onShuffleToggle={music.toggleShuffle}
+        onNavigateToPlayer={() => navigate("/music/player")}
+        activeLyricIndex={activeLyricIndex}
+      />
+    </ScaledCanvas>
   );
 }

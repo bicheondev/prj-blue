@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { label: "번역", path: "/translate" },
   { label: "문헌", path: "/paper" },
   { label: "스토어", path: "/store" },
-  { label: "KCTV", path: "/" },
+  { label: "KCTV", path: "/kctv" },
 ];
 
 export default function Layout() {
