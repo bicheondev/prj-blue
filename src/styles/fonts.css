@@ -1,5 +1,5 @@
-/* Pretendard JP – covers hanja/Chinese characters */
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-jp.min.css');
+/* Pretendard – covers Korean + Latin characters */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 /* ============================================================
    Pretendard aliases for Figma-exported font names
@@ -71,104 +71,105 @@
 }
 
 /* ============================================================
-   NK / Red Star OS Korean font aliases for Figma-exported names
-   Base URL: https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/
+   NK / Red Star OS Korean fonts
+   Family names must match the fontFamily values in fonts.ts
+   Raw URL base: https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/
    ============================================================ */
 
 @font-face {
-  font-family: "KP_CheonRiMa:Regular";
+  font-family: "KP_CheonRiMa";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CheonRiMa-Medium-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CheonRiMa-Medium-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_CheonRiMa_B:Regular";
+  font-family: "KP_CheonRiMa_B";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CheonRiMa-Bold-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CheonRiMa-Bold-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_CheonRiMa_L:Regular";
+  font-family: "KP_CheonRiMa_L";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CheonRiMa-Light-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CheonRiMa-Light-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_CheonRiMa_M:Regular";
+  font-family: "KP_CheonRiMa_M";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CheonRiMa-Normal-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CheonRiMa-Normal-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_CR_PyeonChe_B:Regular";
+  font-family: "KP_CR_PyeonChe_B";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CR_PyeonChe-Bold-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CR_PyeonChe-Bold-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_CR_Tungkeun:Regular";
+  font-family: "KP_CR_Tungkeun";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CR_Tungkeun-Medium-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CR_Tungkeun-Medium-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_CheongPong:Regular";
+  font-family: "KP_CheongPong";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CheongPong-Medium-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CheongPong-Medium-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_CheongPong_B:Regular";
+  font-family: "KP_CheongPong_B";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CheongPong-Bold-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CheongPong-Bold-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_CheongPong_L:Regular";
+  font-family: "KP_CheongPong_L";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-CheongPong-Light-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-CheongPong-Light-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_KwangMyeong:Regular";
+  font-family: "KP_KwangMyeong";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-KwangMyeong-Medium-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-KwangMyeong-Medium-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_KwangMyeong_B:Regular";
+  font-family: "KP_KwangMyeong_B";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-KwangMyeong-Bold-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-KwangMyeong-Bold-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_PusKul:Regular";
+  font-family: "KP_PusKul";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-PusKul-Medium-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-PusKul-Medium-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_PK_KungChe:Regular";
+  font-family: "KP_PK_KungChe";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-PK_KungChe-Medium-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-PK_KungChe-Medium-KP-2011KPS.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: "KP_PK_Yeso_B:Regular";
+  font-family: "KP_PK_Yeso_B";
   font-weight: 400;
   font-display: swap;
-  src: url('https://github.com/REO2248/redstaros-fonts/raw/main/ReOutput_fonts/KCC-KP-PK_Yeso-Bold-KP-2011KPS.ttf') format('truetype');
+  src: url('https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts/KCC-KP-PK_Yeso-Bold-KP-2011KPS.ttf') format('truetype');
 }
