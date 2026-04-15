@@ -1,5 +1,7 @@
 import type { KPFont } from "./types";
 
+const RAW = "https://raw.githubusercontent.com/REO2248/redstaros-fonts/main/ReOutput_fonts";
+
 export const KP_FONTS: KPFont[] = [
   {
     id: "cheonrima",
@@ -7,7 +9,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CheonRiMa",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CheonRiMa-Medium-KP-2011KPS.ttf`,
   },
   {
     id: "cheonrima-b",
@@ -15,7 +17,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CheonRiMa_B",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CheonRiMa-Bold-KP-2011KPS.ttf`,
   },
   {
     id: "cheonrima-m",
@@ -23,7 +25,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CheonRiMa_M",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CheonRiMa-Normal-KP-2011KPS.ttf`,
   },
   {
     id: "cheonrima-l",
@@ -31,7 +33,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CheonRiMa_L",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CheonRiMa-Light-KP-2011KPS.ttf`,
   },
   {
     id: "cr-pyeonche-b",
@@ -39,7 +41,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CR_PyeonChe_B",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CR_PyeonChe-Bold-KP-2011KPS.ttf`,
   },
   {
     id: "cr-tungkeun",
@@ -47,7 +49,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CR_Tungkeun",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CR_Tungkeun-Medium-KP-2011KPS.ttf`,
   },
   {
     id: "cheongpong",
@@ -55,7 +57,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CheongPong",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CheongPong-Medium-KP-2011KPS.ttf`,
   },
   {
     id: "cheongpong-b",
@@ -63,7 +65,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CheongPong_B",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CheongPong-Bold-KP-2011KPS.ttf`,
   },
   {
     id: "cheongpong-l",
@@ -71,7 +73,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_CheongPong_L",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-CheongPong-Light-KP-2011KPS.ttf`,
   },
   {
     id: "kwangmyeong",
@@ -79,7 +81,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_KwangMyeong",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-KwangMyeong-Medium-KP-2011KPS.ttf`,
   },
   {
     id: "kwangmyeong-b",
@@ -87,7 +89,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_KwangMyeong_B",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-KwangMyeong-Bold-KP-2011KPS.ttf`,
   },
   {
     id: "puskul",
@@ -95,7 +97,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_PusKul",
     series: "KP계열",
     preinstalledOnRedStar: true,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-PusKul-Medium-KP-2011KPS.ttf`,
   },
   {
     id: "pk-kungche",
@@ -103,7 +105,7 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_PK_KungChe",
     series: "PK계열",
     preinstalledOnRedStar: false,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-PK_KungChe-Medium-KP-2011KPS.ttf`,
   },
   {
     id: "pk-yeso-b",
@@ -111,6 +113,6 @@ export const KP_FONTS: KPFont[] = [
     fontFamily: "KP_PK_Yeso_B",
     series: "PK계열",
     preinstalledOnRedStar: false,
-    downloadUrl: "#",
+    downloadUrl: `${RAW}/KCC-KP-PK_Yeso-Bold-KP-2011KPS.ttf`,
   },
 ];

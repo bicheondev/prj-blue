@@ -14,6 +14,7 @@ interface Desktop6Props {
   onRepeatToggle: () => void;
   onShuffleToggle: () => void;
   onNavigateToSheet: () => void;
+  onSeek: (seconds: number) => void;
   activeLyricIndex: number;
 }
 
@@ -65,11 +66,19 @@ export default function Desktop({
   onRepeatToggle,
   onShuffleToggle,
   onNavigateToSheet,
+  onSeek,
   activeLyricIndex,
 }: Desktop6Props) {
   const duration = track?.duration ?? 179;
   const progressPercent = duration > 0 ? currentTime / duration : 0;
   const PROGRESS_BAR_WIDTH = 1920;
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    onSeek(Math.max(0, Math.min(duration, ratio * duration)));
+  };
 
   return (
     <div className="bg-white relative size-full" data-name="Desktop - 6">
@@ -162,11 +171,15 @@ export default function Desktop({
       {/* Bottom control bar */}
       <div className="absolute contents left-0 top-[1008px]">
         <div className="absolute bg-[#f8fafc] bottom-0 h-[72px] left-0 w-[1920px]" />
-        {/* Progress track */}
-        <div className="absolute bg-[#94a3b8] h-[4px] left-0 top-[1008px] w-[1920px]" />
-        {/* Progress fill */}
+        {/* Progress track (clickable) */}
         <div
-          className="absolute bg-[#3b82f6] h-[4px] left-0 top-[1008px] transition-all duration-1000"
+          className="absolute bg-[#94a3b8] h-[4px] left-0 top-[1008px] w-[1920px] cursor-pointer hover:h-[6px] transition-all"
+          style={{ marginTop: -1 }}
+          onClick={handleProgressClick}
+        />
+        {/* Progress fill (pointer-events-none so clicks fall through to track) */}
+        <div
+          className="absolute bg-[#3b82f6] h-[4px] left-0 top-[1008px] transition-all duration-300 pointer-events-none"
           style={{ width: `${progressPercent * PROGRESS_BAR_WIDTH}px` }}
         />
 

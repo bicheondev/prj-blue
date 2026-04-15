@@ -1,18 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import svgPaths1 from "../../../imports/svg-qbwodzc01g";
-import svgPaths2 from "../../../imports/svg-su567nsdly";
-import ScaledCanvas from "../ScaledCanvas";
-
-const SCHEDULE_DATA = [
-  { time: "14:27", title: "<건강과 생활섭생> 약물들의 부작용증상과 대책 - 프레드니졸론 -" },
-  { time: "14:32", title: "<동승기> 원산만에서의 섭조개양식경험" },
-  { time: "15:00", title: "◉ 김정은, 강동군병원과 종합봉사소 건설착공식 참석(여멘트, 동영상) ◉ 김정은 연설(여멘트, 동영상)" },
-  { time: "16:05", title: "<소개편집물> 두 개의 군공메달증서가 전하는 사연" },
-  { time: "16:22", title: "<아동방송시간> 만화영화: 소년장수(제95부)" },
-  { time: "17:00", title: "◉ 김정은, 강동군병원과 종합봉사소 건설착공식 참석(여멘트, 동영상) ◉ 김정은 연설(여멘트, 동영상)" },
-  { time: "17:53", title: "오늘호 중앙신문개관" },
-];
+import Hls from "hls.js";
 
 const NAV_ITEMS = [
   { label: "사전", path: "/" },
@@ -25,8 +13,108 @@ const NAV_ITEMS = [
   { label: "KCTV", path: "/kctv" },
 ];
 
+// koryo.tv HLS stream URL for KCTV live
+const HLS_URL = "https://koryo.tv/hls/kctv/index.m3u8";
+
+const SCHEDULE_DATA = [
+  { time: "14:27", title: "<건강과 생활섭생> 약물들의 부작용증상과 대책 - 프레드니졸론 -" },
+  { time: "14:32", title: "<동승기> 원산만에서의 섭조개양식경험" },
+  { time: "15:00", title: "◉ 김정은, 강동군병원과 종합봉사소 건설착공식 참석(여멘트, 동영상) ◉ 김정은 연설(여멘트, 동영상)" },
+  { time: "16:05", title: "<소개편집물> 두 개의 군공메달증서가 전하는 사연" },
+  { time: "16:22", title: "<아동방송시간> 만화영화: 소년장수(제95부)" },
+  { time: "17:00", title: "◉ 김정은, 강동군병원과 종합봉사소 건설착공식 참석(여멘트, 동영상) ◉ 김정은 연설(여멘트, 동영상)" },
+  { time: "17:53", title: "오늘호 중앙신문개관" },
+];
+
 const formatDate = (d: Date) =>
   `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일`;
+
+function HlsPlayer({ src }: { src: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const hlsRef = useRef<Hls | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    setError(null);
+    setIsLoading(true);
+
+    if (Hls.isSupported()) {
+      const hls = new Hls({ enableWorker: true });
+      hlsRef.current = hls;
+
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        setIsLoading(false);
+        video.play().catch(() => {});
+      });
+
+      hls.on(Hls.Events.ERROR, (_event, data) => {
+        if (data.fatal) {
+          setIsLoading(false);
+          setError("스트림을 불러올 수 없습니다. 잠시 후 다시 시도해주세요.");
+        }
+      });
+
+      hls.loadSource(src);
+      hls.attachMedia(video);
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      // Safari native HLS
+      video.src = src;
+      const onMeta = () => {
+        setIsLoading(false);
+        video.play().catch(() => {});
+      };
+      const onErr = () => {
+        setIsLoading(false);
+        setError("스트림을 불러올 수 없습니다.");
+      };
+      video.addEventListener("loadedmetadata", onMeta);
+      video.addEventListener("error", onErr);
+      return () => {
+        video.removeEventListener("loadedmetadata", onMeta);
+        video.removeEventListener("error", onErr);
+      };
+    } else {
+      setIsLoading(false);
+      setError("이 브라우저는 HLS 스트리밍을 지원하지 않습니다.");
+    }
+
+    return () => {
+      hlsRef.current?.destroy();
+      hlsRef.current = null;
+    };
+  }, [src]);
+
+  return (
+    <div className="relative size-full bg-black rounded-[26px] overflow-hidden">
+      <video
+        ref={videoRef}
+        className="size-full object-contain"
+        controls
+        muted
+        playsInline
+      />
+      {isLoading && !error && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 rounded-[26px]">
+          <div className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin mb-3" />
+          <p className="font-['Pretendard:Medium',sans-serif] text-white text-[14px]">스트림 연결 중...</p>
+        </div>
+      )}
+      {error && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 rounded-[26px] px-8">
+          <span className="material-symbols-rounded text-white/50 text-[48px] mb-3">signal_wifi_off</span>
+          <p className="font-['Pretendard:Medium',sans-serif] text-white/70 text-[14px] text-center">{error}</p>
+          <p className="font-['Pretendard:Regular',sans-serif] text-white/40 text-[12px] text-center mt-2">
+            koryo.tv에서 직접 시청하시거나 잠시 후 새로고침해주세요.
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function KctvPage() {
   const navigate = useNavigate();
@@ -34,215 +122,136 @@ export default function KctvPage() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [currentDate, setCurrentDate] = useState(new Date(2024, 1, 5));
 
-  const prevDay = () =>
-    setCurrentDate((d) => new Date(d.getTime() - 86_400_000));
-  const nextDay = () =>
-    setCurrentDate((d) => new Date(d.getTime() + 86_400_000));
+  const prevDay = () => setCurrentDate((d) => new Date(d.getTime() - 86_400_000));
+  const nextDay = () => setCurrentDate((d) => new Date(d.getTime() + 86_400_000));
 
   return (
-    <ScaledCanvas>
-    <div
-      className={`${showSchedule ? "bg-[#f8fafc]" : "bg-white"} relative size-full`}
-    >
-      {/* ── Main content ── */}
-      <div className="absolute inset-0 flex flex-col items-center">
-        {/* Video + optional schedule panel */}
-        <div className="flex gap-[26px] items-center mt-[240px]">
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Navigation Bar */}
+      <header className="sticky top-0 z-10 bg-white/70 backdrop-blur-md border-b border-[#e2e8f0] h-[64px] flex items-center justify-between px-6 md:px-[232px]">
+        <p className="font-['Pretendard:Medium',sans-serif] text-[#475569] text-[20px] tracking-[-0.6px] whitespace-nowrap">
+          ★Live
+        </p>
+        <nav className="hidden md:flex gap-[25px] items-center text-[#475569] text-[15px]">
+          {NAV_ITEMS.map((item) => (
+            <p
+              key={item.label}
+              onClick={() => navigate(item.path)}
+              className={`cursor-pointer whitespace-nowrap ${
+                item.label === "KCTV"
+                  ? "font-['Pretendard:Bold',sans-serif]"
+                  : "font-['Pretendard:Regular',sans-serif]"
+              }`}
+            >
+              {item.label}
+            </p>
+          ))}
+        </nav>
+        <div className="hidden md:flex gap-[16px] items-center font-['Pretendard:Regular',sans-serif] text-[#475569] text-[15px]">
+          <p className="cursor-pointer whitespace-nowrap">도움말</p>
+          <p className="cursor-pointer whitespace-nowrap">설정</p>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <main className="flex-1 flex flex-col items-center py-[40px] px-4 md:px-8">
+        <div className="flex gap-[26px] items-start w-full max-w-[1200px]">
           {/* Video container */}
-          <div className="bg-[#475569] h-[600px] rounded-[26px] w-[1067px] shrink-0 overflow-hidden relative">
-            <iframe
-              src="https://koryo.tv/channel/kctv"
-              className="absolute inset-0 size-full border-0"
-              allowFullScreen
-              title="KCTV 조선중앙텔레비죤 생방송"
-            />
+          <div
+            className="flex-1 min-w-0 rounded-[26px] overflow-hidden shadow-lg"
+            style={{ aspectRatio: "16/9" }}
+          >
+            <HlsPlayer src={HLS_URL} />
           </div>
 
-          {/* Schedule panel (shown when open) */}
+          {/* Schedule panel */}
           {showSchedule && (
-            <div className="backdrop-blur-[3.5px] bg-white flex flex-col gap-[18px] h-[600px] items-start py-[8px] rounded-[26px] shrink-0 overflow-hidden">
+            <div className="w-[300px] shrink-0 bg-white border border-[#e2e8f0] rounded-[26px] flex flex-col overflow-hidden shadow-sm" style={{ height: "min(600px, 80vh)" }}>
               {/* Header */}
-              <div className="flex items-center justify-between pl-[24px] pr-[8px] w-[300px]">
-                <p className="font-['Pretendard:Medium',sans-serif] text-[#334155] text-[15px] whitespace-nowrap">
-                  편성표
-                </p>
+              <div className="flex items-center justify-between pl-[24px] pr-[8px] py-[14px] border-b border-[#e2e8f0]">
+                <p className="font-['Pretendard:Medium',sans-serif] text-[#334155] text-[15px]">편성표</p>
                 <button
                   onClick={() => setShowSchedule(false)}
-                  className="bg-[#3b82f6] flex items-center p-[9px] rounded-[18px] size-[36px] cursor-pointer border-0"
+                  className="bg-[#3b82f6] flex items-center justify-center rounded-full size-[36px] cursor-pointer border-0 hover:bg-[#2563eb] transition-colors"
                 >
-                  <svg className="size-[18px]" fill="none" viewBox="0 0 18 18">
-                    <mask
-                      height="18"
-                      id="mask-close"
-                      maskUnits="userSpaceOnUse"
-                      style={{ maskType: "alpha" }}
-                      width="18"
-                      x="0"
-                      y="0"
-                    >
-                      <rect fill="#D9D9D9" height="18" width="18" />
-                    </mask>
-                    <g mask="url(#mask-close)">
-                      <path d={svgPaths2.p266b5480} fill="white" />
-                    </g>
-                  </svg>
+                  <span className="material-symbols-rounded text-white text-[18px]">close</span>
                 </button>
               </div>
 
               {/* Date navigation */}
-              <div className="flex flex-col items-start px-[24px]">
-                <div className="flex gap-[10px] items-center justify-center">
-                  <button
-                    onClick={prevDay}
-                    className="bg-[#f8fafc] flex items-center p-[4px] rounded-[10px] size-[20px] cursor-pointer border-0"
-                  >
-                    <svg className="size-[12px]" fill="none" viewBox="0 0 12 12">
-                      <mask
-                        height="12"
-                        id="mask-back"
-                        maskUnits="userSpaceOnUse"
-                        style={{ maskType: "alpha" }}
-                        width="12"
-                        x="0"
-                        y="0"
-                      >
-                        <rect fill="#D9D9D9" height="12" width="12" />
-                      </mask>
-                      <g mask="url(#mask-back)">
-                        <path d={svgPaths2.p329a700} fill="#334155" />
-                      </g>
-                    </svg>
-                  </button>
-                  <p className="font-['Pretendard:SemiBold',sans-serif] text-[#334155] text-[20px] tracking-[-0.6px] whitespace-nowrap">
-                    {formatDate(currentDate)}
-                  </p>
-                  <button
-                    onClick={nextDay}
-                    className="bg-[#f8fafc] flex items-center p-[4px] rounded-[10px] size-[20px] cursor-pointer border-0"
-                  >
-                    <svg className="size-[12px]" fill="none" viewBox="0 0 12 12">
-                      <mask
-                        height="12"
-                        id="mask-fwd-sm"
-                        maskUnits="userSpaceOnUse"
-                        style={{ maskType: "alpha" }}
-                        width="12"
-                        x="0"
-                        y="0"
-                      >
-                        <rect fill="#D9D9D9" height="12" width="12" />
-                      </mask>
-                      <g mask="url(#mask-fwd-sm)">
-                        <path d={svgPaths2.p1a246c00} fill="#334155" />
-                      </g>
-                    </svg>
-                  </button>
-                </div>
+              <div className="flex items-center gap-[10px] px-[24px] py-[12px] border-b border-[#f1f5f9]">
+                <button
+                  onClick={prevDay}
+                  className="bg-[#f8fafc] flex items-center justify-center rounded-[8px] size-[28px] cursor-pointer border-0 hover:bg-[#f1f5f9] transition-colors"
+                >
+                  <span className="material-symbols-rounded text-[#334155] text-[16px]">chevron_left</span>
+                </button>
+                <p className="font-['Pretendard:SemiBold',sans-serif] text-[#334155] text-[14px] flex-1 text-center whitespace-nowrap">
+                  {formatDate(currentDate)}
+                </p>
+                <button
+                  onClick={nextDay}
+                  className="bg-[#f8fafc] flex items-center justify-center rounded-[8px] size-[28px] cursor-pointer border-0 hover:bg-[#f1f5f9] transition-colors"
+                >
+                  <span className="material-symbols-rounded text-[#334155] text-[16px]">chevron_right</span>
+                </button>
               </div>
 
               {/* Program list */}
-              <div className="flex flex-col items-start w-full overflow-y-auto">
+              <div className="flex-1 overflow-y-auto">
                 {SCHEDULE_DATA.map((item, i) => (
-                  <div
+                  <button
                     key={i}
-                    className={`w-full cursor-pointer ${selectedIndex === i ? "bg-[#eff6ff]" : ""}`}
+                    className={`w-full text-left cursor-pointer border-0 px-[24px] py-[14px] transition-colors bg-transparent ${
+                      selectedIndex === i ? "bg-[#eff6ff]" : "hover:bg-[#f8fafc]"
+                    }`}
                     onClick={() => setSelectedIndex(i)}
                   >
-                    <div
-                      className={`flex gap-[10px] items-start leading-[1.3] px-[24px] py-[16px] text-[15px] ${
-                        selectedIndex === i ? "text-[#2563eb]" : "text-[#334155]"
-                      }`}
-                    >
-                      <p className="font-['Pretendard:Regular',sans-serif] shrink-0 w-[38px]">
+                    <div className="flex gap-[10px] items-start leading-[1.3] text-[14px]">
+                      <span
+                        className={`font-['Pretendard:Regular',sans-serif] shrink-0 w-[38px] ${
+                          selectedIndex === i ? "text-[#2563eb]" : "text-[#94a3b8]"
+                        }`}
+                      >
                         {item.time}
-                      </p>
-                      <p className="flex-[1_0_0] font-['Pretendard:SemiBold',sans-serif] min-w-0">
+                      </span>
+                      <span
+                        className={`font-['Pretendard:SemiBold',sans-serif] flex-1 min-w-0 ${
+                          selectedIndex === i ? "text-[#2563eb]" : "text-[#334155]"
+                        }`}
+                      >
                         {item.title}
-                      </p>
+                      </span>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
           )}
         </div>
 
-        {/* "편성표 보기" button (shown when schedule is hidden) */}
+        {/* "편성표 보기" button */}
         {!showSchedule && (
-          <div className="mt-[40px]">
+          <div className="mt-[32px]">
             <button
               onClick={() => setShowSchedule(true)}
-              className="backdrop-blur-[3.5px] bg-[#f1f5f9] flex items-center p-[8px] pl-[16px] rounded-[26px] gap-[10px] cursor-pointer border-0"
+              className="bg-[#f1f5f9] flex items-center gap-[10px] pl-[16px] pr-[8px] py-[8px] rounded-full cursor-pointer border-0 hover:bg-[#e2e8f0] transition-colors"
             >
-              <p className="font-['Pretendard:SemiBold',sans-serif] text-[#334155] text-[17px] text-center whitespace-nowrap">
-                편성표 보기
-              </p>
-              <div className="bg-[#3b82f6] flex items-center p-[9px] rounded-[18px] size-[36px]">
-                <svg className="size-[18px]" fill="none" viewBox="0 0 18 18">
-                  <mask
-                    height="18"
-                    id="mask-arrow"
-                    maskUnits="userSpaceOnUse"
-                    style={{ maskType: "alpha" }}
-                    width="18"
-                    x="0"
-                    y="0"
-                  >
-                    <rect fill="#D9D9D9" height="18" width="18" />
-                  </mask>
-                  <g mask="url(#mask-arrow)">
-                    <path d={svgPaths1.p9321b80} fill="white" />
-                  </g>
-                </svg>
+              <p className="font-['Pretendard:SemiBold',sans-serif] text-[#334155] text-[17px]">편성표 보기</p>
+              <div className="bg-[#3b82f6] flex items-center justify-center rounded-full size-[36px]">
+                <span className="material-symbols-rounded text-white text-[18px]">arrow_forward</span>
               </div>
             </button>
           </div>
         )}
-      </div>
+      </main>
 
-      {/* ── Footer ── */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 bg-[#f8fafc] flex flex-col items-center justify-center px-[312px] py-[24px] w-[1920px]">
-        <p className="font-['Pretendard:Medium',sans-serif] text-[#94a3b8] text-[14px] text-center whitespace-nowrap">
-          본 사이트는 북한 정부 또는 조선노동당, 조성중앙텔레비전과는 전혀 관계가
-          없으며, 이들을 지지하지도 옹호하지도 않고 오로지 학문적인 목적으로
-          개설되었음을 알려드립니다. 간첩 신고는 국번 없이 111
+      {/* Footer */}
+      <footer className="bg-[#f8fafc] border-t border-[#e2e8f0] px-8 py-[24px]">
+        <p className="font-['Pretendard:Medium',sans-serif] text-[#94a3b8] text-[14px] text-center">
+          본 사이트는 북한 정부 또는 조선노동당, 조성중앙텔레비전과는 전혀 관계가 없으며, 이들을 지지하지도 옹호하지도 않고 오로지 학문적인 목적으로 개설되었음을 알려드립니다. 간첩 신고는 국번 없이 111
         </p>
-      </div>
-
-      {/* ── Navigation Bar ── */}
-      <div className="absolute backdrop-blur-[6px] bg-[rgba(255,255,255,0.7)] flex h-[64px] items-center justify-center left-0 px-[232px] py-[18px] top-0 w-[1920px]">
-        <div
-          aria-hidden="true"
-          className="absolute border-[#e2e8f0] border-b border-solid inset-0 pointer-events-none"
-        />
-        <div className="flex flex-[1_0_0] items-center justify-between min-h-px min-w-px">
-          <p className="font-['Pretendard:Medium',sans-serif] text-[#475569] text-[20px] tracking-[-0.6px] whitespace-nowrap">
-            ★Live
-          </p>
-          {/* Center nav */}
-          <div className="flex gap-[25px] items-center text-[#475569] text-[15px] whitespace-nowrap">
-            {NAV_ITEMS.map((item) => (
-              <p
-                key={item.label}
-                onClick={() => navigate(item.path)}
-                className={`cursor-pointer ${
-                  item.label === "KCTV"
-                    ? "font-['Pretendard:Bold',sans-serif]"
-                    : "font-['Pretendard:Regular',sans-serif]"
-                }`}
-              >
-                {item.label}
-              </p>
-            ))}
-          </div>
-          {/* Right side placeholder */}
-          <div className="flex gap-[16px] items-center font-['Pretendard:Regular',sans-serif] text-[#475569] text-[15px]">
-            <p className="cursor-pointer whitespace-nowrap">도움말</p>
-            <p className="cursor-pointer whitespace-nowrap">설정</p>
-          </div>
-        </div>
-      </div>
+      </footer>
     </div>
-    </ScaledCanvas>
   );
 }
